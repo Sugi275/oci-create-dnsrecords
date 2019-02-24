@@ -9,8 +9,6 @@ import (
 )
 
 func main() {
-	fmt.Println("vim-go")
-
 	zn := "test.enc"
 	dn := "_acme-challenge.test.enc"
 
@@ -25,31 +23,29 @@ func main() {
 	rdata := "testdayo"
 	ttl := 30
 
-	recordOperation := dns.RecordOperation{
-		Rtype:       &txttype,
+	recordDetails := dns.RecordDetails{
 		Domain:      &dn,
-		IsProtected: &falseFlg,
 		Rdata:       &rdata,
+		Rtype:       &txttype,
 		Ttl:         &ttl,
+		IsProtected: &falseFlg,
 	}
 
-	var recordOperationList []dns.RecordOperation
-	recordOperationList = append(recordOperationList, recordOperation)
-	fmt.Println("debug1: ", recordOperationList)
+	var recordDetailsList []dns.RecordDetails
+	recordDetailsList = append(recordDetailsList, recordDetails)
 
-	patchDomainRecordsDetails := dns.PatchDomainRecordsDetails{
-		Items: recordOperationList,
+	updateDomainRecordsDetails := dns.UpdateDomainRecordsDetails{
+		Items: recordDetailsList,
 	}
 
-	request := dns.PatchDomainRecordsRequest{
-		ZoneNameOrId:              &zn,
-		Domain:                    &dn,
-		PatchDomainRecordsDetails: patchDomainRecordsDetails,
+	request := dns.UpdateDomainRecordsRequest{
+		ZoneNameOrId:               &zn,
+		Domain:                     &dn,
+		UpdateDomainRecordsDetails: updateDomainRecordsDetails,
 	}
 
 	ctx := context.Background()
-	fmt.Println("debug2: ", request)
-	response, err := client.PatchDomainRecords(ctx, request)
+	response, err := client.UpdateDomainRecords(ctx, request)
 	if err != nil {
 		panic(err)
 	}
