@@ -17,6 +17,11 @@ func main() {
 		panic(err)
 	}
 
+	compartmentid, err := envprovider.GetCompartmentID()
+	if err != nil {
+		panic(err)
+	}
+
 	// DNSのレコードを作成するパラメータを生成
 	txttype := "TXT"
 	falseFlg := false
@@ -42,6 +47,7 @@ func main() {
 		ZoneNameOrId:               &zn,
 		Domain:                     &dn,
 		UpdateDomainRecordsDetails: updateDomainRecordsDetails,
+		CompartmentId:              &compartmentid,
 	}
 
 	ctx := context.Background()
